@@ -7,6 +7,8 @@ import os
 from libqtile import widget
 from libqtile import qtile
 
+from my_keybinding import get_my_keybinding
+
 setlocale(LC_ALL, "")
 
 mod = "mod4"
@@ -73,6 +75,7 @@ keys = [
 ]
 
 
+
 ####################################################
 ####################################################
 #                                                  #
@@ -82,6 +85,9 @@ keys = [
 ####################################################
 
 groups = [Group(i) for i in "123456789"]
+
+# override
+groups = [Group(i) for i in "qwe456789"]
 
 keys.extend(
     [
@@ -113,6 +119,10 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
+
+
+# override
+keys = get_my_keybinding(groups)
 
 
 ####################################################
