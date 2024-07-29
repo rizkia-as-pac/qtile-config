@@ -1,6 +1,10 @@
 #!/bin/sh
+
 feh --bg-scale /usr/share/endeavouros/backgrounds/endeavouros-wallpaper.png
 picom & disown # --experimental-backends --vsync should prevent screen tearing on most setups if needed
+
+# Start nm-applet
+nm-applet --indicator &
 
 # Low battery notifier
 ~/.config/qtile/scripts/check_battery.sh & disown
@@ -8,7 +12,5 @@ picom & disown # --experimental-backends --vsync should prevent screen tearing o
 # Start welcome
 eos-welcome & disown
 
-# Start nm-applet
-nm-applet --indicator &
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & disown # start polkit agent from GNOME

@@ -1,12 +1,12 @@
-from libqtile.lazy import lazy
-from libqtile.config import Key, Group, DropDown, ScratchPad, Match, Click, Drag, Screen
-from libqtile import layout, hook, bar
-from locale import setlocale, LC_ALL
-import subprocess
 import os
-from libqtile import widget
-from libqtile import qtile
+import subprocess
+from locale import LC_ALL, setlocale
 
+from libqtile import bar, hook, layout, qtile, widget
+from libqtile.config import (Click, Drag, DropDown, Group, Key, Match,
+                             ScratchPad, Screen)
+from libqtile.lazy import lazy
+from my_bar import get_my_bar
 from my_keybinding import get_my_keybinding
 
 setlocale(LC_ALL, "")
@@ -73,7 +73,6 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 3%-")),
     Key([], "XF86AudioMute", lazy.spawn("amixer set Master toggle")),
 ]
-
 
 
 ####################################################
@@ -375,6 +374,17 @@ screens = [
     ),
 ]
 
+# override
+screens = [
+    Screen(
+        top=bar.Bar(
+            get_my_bar(),
+            35,  # height in px
+            background="#2f343f",
+            # background="#404552",  # background color
+        ),
+    ),
+]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
