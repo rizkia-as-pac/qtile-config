@@ -8,4 +8,7 @@ picom & disown # --experimental-backends --vsync should prevent screen tearing o
 # Start welcome
 eos-welcome & disown
 
+# Start nm-applet
+nm-applet --indicator &
+
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & disown # start polkit agent from GNOME
