@@ -23,7 +23,7 @@ def get_my_bar():
     bar = [
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
         widget.Image(
-            filename="~/.config/qtile/eos-c.png",
+            filename="~/.config/qtile/assets/icon.png",
             margin=6,
             background="#2f343f",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show combi")},

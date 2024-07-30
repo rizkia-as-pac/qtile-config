@@ -13,3 +13,6 @@ rofi
 slock
 dunst
 eos-sddm-theme
+brightnessctl
+bc
+flameshot
