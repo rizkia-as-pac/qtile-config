@@ -8,6 +8,7 @@ from libqtile.config import (Click, Drag, DropDown, Group, Key, Match,
 from libqtile.lazy import lazy
 from my_bar import get_my_bar
 from my_keybinding import get_my_keybinding
+from my_layout import get_my_layout
 
 setlocale(LC_ALL, "")
 
@@ -148,6 +149,11 @@ layouts = [
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
+
+# override
+layouts = get_my_layout()
+
+
 
 
 floating_layout = layout.Floating(
