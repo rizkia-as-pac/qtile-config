@@ -14,4 +14,5 @@ cp -R .config/qtile/assets/wallpaper.png ~/.config/qtile/assets/
 cp -R .config/qtile/assets/icon.png ~/.config/qtile/assets/
 
 cp -R .bashrc ~
+source ~/.bashrc
 
