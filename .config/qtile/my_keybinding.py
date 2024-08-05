@@ -6,7 +6,8 @@ from libqtile.lazy import lazy
 def get_my_keybinding(groups):
     mod = "mod4"
     alterkey = "mod1"
-    terminal = "xfce4-terminal"
+    terminal = "kitty"
+    # terminal = "xfce4-terminal"
 
     HOME = os.path.expanduser('~')
      

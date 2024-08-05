@@ -16,3 +16,4 @@ eos-sddm-theme
 brightnessctl
 bc
 flameshot
+kitty
