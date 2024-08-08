@@ -1,0 +1,6 @@
+vim
+docker
+docker-compose
+npm
+xclip
+neovim
