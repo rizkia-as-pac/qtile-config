@@ -1,4 +1,5 @@
 import os
+
 from libqtile.config import Key
 from libqtile.lazy import lazy
 
@@ -9,12 +10,16 @@ def get_my_keybinding(groups):
     terminal = "kitty"
     # terminal = "xfce4-terminal"
 
-    HOME = os.path.expanduser('~')
-     
+    HOME = os.path.expanduser("~")
 
     keys = [
-        Key([], "Print", lazy.spawn("flameshot gui"), desc='Launch screenshot'),
-        Key(["control"], "Escape", lazy.spawn("playerctl play-pause"), desc='Media play/pause'),
+        Key([], "Print", lazy.spawn("flameshot gui"), desc="Launch screenshot"),
+        Key(
+            ["control"],
+            "Escape",
+            lazy.spawn("playerctl play-pause"),
+            desc="Media play/pause",
+        ),
         Key([alterkey], "Return", lazy.spawn(terminal), desc="Launch terminal"),
         Key([alterkey], "delete", lazy.window.kill(), desc="Kill focused window"),
         Key(
@@ -82,15 +87,32 @@ def get_my_keybinding(groups):
         Key([mod, "shift"], "space", lazy.layout.flip()),
         # Utility
         Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
-        Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+        Key([mod, "control"], "delete", lazy.shutdown(), desc="Shutdown Qtile"),
         # Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer set Master 3%+")),
-        Key([], "XF86AudioRaiseVolume", lazy.spawn(f"{HOME}/.config/qtile/scripts/volume.sh volume_up")),
+        Key(
+            [],
+            "XF86AudioRaiseVolume",
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/volume.sh volume_up"),
+        ),
         # Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 3%-")),
-        Key([], "XF86AudioLowerVolume", lazy.spawn(f"{HOME}/.config/qtile/scripts/volume.sh volume_down")),
+        Key(
+            [],
+            "XF86AudioLowerVolume",
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/volume.sh volume_down"),
+        ),
         Key([], "XF86AudioMute", lazy.spawn("amixer set Master toggle")),
-
-        Key([], "XF86MonBrightnessUp", lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_up"), desc='brightness UP'),
-        Key([], "XF86MonBrightnessDown", lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_down"), desc='brightness Down'),
+        Key(
+            [],
+            "XF86MonBrightnessUp",
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_up"),
+            desc="brightness UP",
+        ),
+        Key(
+            [],
+            "XF86MonBrightnessDown",
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_down"),
+            desc="brightness Down",
+        ),
     ]
 
     for i in groups:
