@@ -19,3 +19,4 @@ flameshot
 kitty
 autorandr
 htop
+xclip
