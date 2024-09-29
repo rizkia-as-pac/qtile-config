@@ -205,7 +205,9 @@ def secondary_bar(visible_groups):
             fontsize=16,
         ),
         widget.CurrentLayoutIcon(scale=0.70),
-        widget.Sep(padding=4, linewidth=0),
+        widget.Sep(padding=2, linewidth=0),
+        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
     ]
 
     return bar
