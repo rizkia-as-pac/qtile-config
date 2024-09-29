@@ -154,8 +154,6 @@ layouts = [
 layouts = get_my_layout()
 
 
-
-
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -207,8 +205,14 @@ def autostart():
 
 
 @hook.subscribe.startup
-def start_always():
-    subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
+def autoreload():
+    autoreload_config = os.path.expanduser("~/.config/qtile/autoreload.sh")
+    subprocess.call([autoreload_config])
+
+
+#@hook.subscribe.startup
+#def start_always():
+#    subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
 
 
 ####################################################

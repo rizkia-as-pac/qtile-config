@@ -17,3 +17,5 @@ brightnessctl
 bc
 flameshot
 kitty
+autorandr
+htop
