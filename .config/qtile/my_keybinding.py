@@ -37,6 +37,10 @@ def get_my_keybinding(groups):
             lazy.spawn("playerctl play-pause"),
             desc="Media play/pause",
         ),
+        Key([alterkey], "n", lazy.spawn("playerctl position 10-"), desc="back 10 second"),
+        Key([alterkey], "m", lazy.spawn("playerctl position 10+"), desc="forward 10 second"),
+
+
         Key([alterkey], "Return", lazy.spawn(terminal), desc="Launch terminal"),
         Key([alterkey], "delete", lazy.window.kill(), desc="Kill focused window"),
         Key(
