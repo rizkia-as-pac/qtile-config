@@ -20,3 +20,4 @@ kitty
 autorandr
 htop
 xclip
+inotify-tools
