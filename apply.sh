@@ -1,4 +1,3 @@
-cp -R .config/nvim ~/.config/
 cp -R .config/qtile/config.py ~/.config/qtile/
 
 cp -R .config/qtile/my_keybinding.py ~/.config/qtile/
@@ -17,4 +16,3 @@ cp -R .config/qtile/assets/icon.png ~/.config/qtile/assets/
 
 cp -R .bashrc ~
 source ~/.bashrc
-
