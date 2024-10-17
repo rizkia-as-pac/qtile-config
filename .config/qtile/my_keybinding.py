@@ -63,8 +63,7 @@ def get_my_keybinding(groups):
         ),
         Key([alterkey], "escape", lazy.next_layout(), desc="Toggle between layouts"),
         # Rofi
-        # Key([mod], "r", lazy.spawn("rofi -show combi"), desc="spawn rofi"),
-        Key([mod], "r", lazy.spawn("rofi -modi drun -show drun"), desc="spawn rofi"),
+        Key([mod], "r", lazy.spawn("rofi -show drun"), desc="spawn rofi"),
         #
         Key([mod], "equal", lazy.layout.grow(), desc="Grow window"),
         Key([mod], "minus", lazy.layout.shrink(), desc="Shrink window"),
