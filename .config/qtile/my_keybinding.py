@@ -1,7 +1,24 @@
 import os
 
+from libqtile import qtile
 from libqtile.config import Key
 from libqtile.lazy import lazy
+
+
+def go_to_group(name: str):
+    def _inner(qtile):
+        if len(qtile.screens) == 1:
+            qtile.groups_map[name].toscreen()
+            return
+
+        if name.isdigit():
+            qtile.focus_screen(1)
+            qtile.groups_map[name].toscreen()
+        else:
+            qtile.focus_screen(0)
+            qtile.groups_map[name].toscreen()
+
+    return _inner
 
 
 def get_my_keybinding(groups):
@@ -115,27 +132,18 @@ def get_my_keybinding(groups):
         ),
     ]
 
-    for i in groups:
+    for group in groups:
         keys.extend(
             [
-                # mod1 + number of group = switch to group
-                Key(
-                    [alterkey],
-                    i.name,
-                    lazy.group[i.name].toscreen(),
-                    desc="Switch to group {}".format(i.name),
-                ),
-                # mod1 + shift + number of group = switch to & move focused window to group
+                # alterkey + group name = switch to group
+                Key([alterkey], group.name, lazy.function(go_to_group(group.name))),
+                # mod + shift + number of group = move focused window to group
                 Key(
                     [mod, "shift"],
-                    i.name,
-                    lazy.window.togroup(i.name, switch_group=True),
-                    desc="Switch to & move focused window to group {}".format(i.name),
+                    group.name,
+                    lazy.window.togroup(group.name),
+                    desc="move focused window to group {}".format(group.name),
                 ),
-                # Or, use below if you prefer not to switch to that group.
-                # # mod1 + shift + number of group = move focused window to group
-                # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-                #     desc="move focused window to group {}".format(i.name)),
             ]
         )
 

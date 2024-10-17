@@ -6,7 +6,8 @@ from libqtile import bar, hook, layout, qtile, widget
 from libqtile.config import (Click, Drag, DropDown, Group, Key, Match,
                              ScratchPad, Screen)
 from libqtile.lazy import lazy
-from my_bar import get_my_bar
+from my_group import get_my_groups
+from my_screen import get_my_screens
 from my_keybinding import get_my_keybinding
 from my_layout import get_my_layout
 
@@ -87,7 +88,7 @@ keys = [
 groups = [Group(i) for i in "123456789"]
 
 # override
-groups = [Group(i) for i in "qwe456789"]
+groups = get_my_groups()
 
 keys.extend(
     [
@@ -154,8 +155,6 @@ layouts = [
 layouts = get_my_layout()
 
 
-
-
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -207,8 +206,14 @@ def autostart():
 
 
 @hook.subscribe.startup
-def start_always():
-    subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
+def autoreload():
+    autoreload_config = os.path.expanduser("~/.config/qtile/autoreload.sh")
+    subprocess.call([autoreload_config])
+
+
+# @hook.subscribe.startup
+# def start_always():
+#    subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
 
 
 ####################################################
@@ -381,16 +386,7 @@ screens = [
 ]
 
 # override
-screens = [
-    Screen(
-        top=bar.Bar(
-            get_my_bar(),
-            35,  # height in px
-            background="#2f343f",
-            # background="#404552",  # background color
-        ),
-    ),
-]
+screens = get_my_screens(groups)
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
