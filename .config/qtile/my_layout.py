@@ -4,7 +4,8 @@ from libqtile import layout
 def get_my_layout():
     layouts = [
         # layout.MonadTall(margin=8, border_focus="#ffffff", border_normal="#2c5380"),
-        layout.MonadTall(margin=10, border_focus="#5294E2", border_width=3),
+        # layout.MonadTall(margin=10, border_focus="#5294E2", border_width=3).flip(),
+        layout.MonadTall(margin=10, border_focus="#5294E2", border_width=3, align=layout.MonadTall._right),
         layout.Max(
             border_normal="#5294E2",
             margin=10,
