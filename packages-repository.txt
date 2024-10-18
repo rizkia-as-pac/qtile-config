@@ -17,6 +17,7 @@ brightnessctl
 bc
 flameshot
 kitty
+arandr
 autorandr
 htop
 xclip
