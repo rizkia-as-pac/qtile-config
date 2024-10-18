@@ -12,6 +12,7 @@ feh
 rofi
 slock
 dunst
+network-manager-applet
 eos-sddm-theme
 brightnessctl
 bc
