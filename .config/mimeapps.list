@@ -1,0 +1,6 @@
+[Default Applications]
+x-scheme-handler/postman=Postman.desktop
+image/jpeg=org.gnome.eog.desktop;feh.desktop;
+
+[Added Associations]
+application/x-shellscript=xed.desktop;
