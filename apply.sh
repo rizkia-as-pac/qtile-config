@@ -17,5 +17,6 @@ cp -R .config/qtile/assets/icon.png ~/.config/qtile/assets/
 cp -R .config/rofi ~/.config/
 cp -R .config/mimeapps.list ~/.config/
 
+cp -R ./shell_config ~/
 cp -R .bashrc ~
 source ~/.bashrc

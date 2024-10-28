@@ -9,6 +9,7 @@ alsa-utils
 papirus-icon-theme
 pasystray
 feh
+eog
 rofi
 slock
 dunst

@@ -1,8 +1,8 @@
 #
 # ~/.bashrc
 #
-
-source ~/shell_config/functions/flutter-watch.sh
+source ~/shell_config/functions/flutter_watch/flutter-watch-function.sh
+source ~/shell_config/functions/hot_reload/hot-reload-function.sh
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -16,6 +16,8 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias v='nvim .'
 alias b='vim .'
+alias c='clear'
+alias buka='mimeo'
 alias workdir='cd ~/Desktop/work'
 alias kuliah='cd ~/Desktop/kuliah/SEM5'
 alias learnspace='cd ~/Desktop/learn'
