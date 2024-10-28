@@ -108,6 +108,12 @@ def main_bar(visible_groups):
             padding=8,
         ),
         widget.Sep(padding=5, linewidth=0),
+        widget.Memory(
+            format='{MemUsed: .3f} /{MemTotal: .3f}',
+            measure_mem='G',
+            fontsize=15,
+        ),
+        widget.Sep(padding=5, linewidth=0),
         widget.TextBox(
             text="dB:",
             # foreground="#e39378",
