@@ -1,18 +1,26 @@
 #!/bin/bash
 
 PID_PATH="/tmp/running_flutter.pid"
-MAIN_DART="./lib/main.dart"
+WATCH_PATH=${1:-"./lib"}
+MAIN_DART="$WATCH_PATH/main.dart"
 
 if [ ! -e "$MAIN_DART" ]; then
   echo "Error: $MAIN_DART does not exist."
-  return 1
+  exit 0
+fi
+
+if [ ! -e "$PID_PATH" ]; then
+  printf "\nError: $PID_PATH does not exist."
+  echo "run this command first."
+  printf " flutter run --pid-file=/tmp/running_flutter.pid\n\n"
+  exit 0
 fi
 
 cleanup() {
   if [ -e "$PID_PATH" ]; then
     cat "$PID_PATH" | xargs kill
   fi
-  printf "\nApplication finished.\n"
+  printf "\nObserver finished.\n"
   exit 0
 }
 
@@ -20,14 +28,14 @@ cleanup() {
 # SIGINT (Ctrl+C)
 trap cleanup SIGINT
 
-flutter run --pid-file=$PID_PATH >/dev/null 2>&1 &
-
 # move_from, move_to, modify adalah event-event yang vim lakukan ketika user melakukan save file
 inotifywait \
   --include '.*\.dart$' \
-  -m -r -e modify ./lib | while read path action file; do
+  -m -r -e modify $WATCH_PATH | while read path action file; do
 
-  printf "\n\n'$path$file' modified. \n\nPerforming hot reload..."
+  # TODO: check if PID_PATH still exist or not
+
+  printf "\n\n'$path$file' modified. \n\nSend signal to trigger hot reload."
 
   if [ -e $PID_PATH ]; then
     cat $PID_PATH | xargs kill -s USR1
