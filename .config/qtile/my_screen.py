@@ -1,8 +1,11 @@
 import os
 import subprocess
+import json
 
 from libqtile import bar, qtile, widget
 from libqtile.config import Screen
+
+from constant import SECONDARY_TERMINAL
 
 
 def get_number_of_monitors():
@@ -16,21 +19,18 @@ def get_number_of_monitors():
         return 0
 
 
-def main_bar(visible_groups):
+def check_device():
+    hostname_command = ["hostnamectl", "--json=pretty"]
+    result = subprocess.run(
+        hostname_command, capture_output=True, text=True, check=True)
 
-    colors = [
-        ["#282c34", "#282c34"],  # panel background
-        ["#3d3f4b", "#434758"],  # background for current screen tab
-        ["#ffffff", "#ffffff"],  # font color for group names
-        ["#ff5555", "#ff5555"],  # border line color for current tab
-        [
-            "#74438f",
-            "#74438f",
-        ],  # border line color for 'other tabs' and color for 'odd widgets'
-        ["#4f76c7", "#4f76c7"],  # color for the 'even widgets'
-        ["#e1acff", "#e1acff"],  # window name
-        ["#ecbbfb", "#ecbbfb"],  # backbround for inactive screens
-    ]
+    output = result.stdout
+    jsonOutput = json.loads(output)
+    # print("Command output:\n", jsonOutput["Chassis"])
+    return jsonOutput["Chassis"]
+
+
+def main_bar(visible_groups, device):
 
     bar = [
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
@@ -38,14 +38,17 @@ def main_bar(visible_groups):
             filename="~/.config/qtile/assets/icon.png",
             margin=6,
             background="#2f343f",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
+            mouse_callbacks={
+                "Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
         ),
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
         widget.GroupBox(
             highlight_method="line",
             highlight_color="#2f343f",
-            this_screen_border="#5294e2",
-            this_current_screen_border="#5294e2",
+            # this_screen_border="#5294e2",
+            this_screen_border="#82aaff",
+            # this_current_screen_border="#5294e2",
+            this_current_screen_border="#82aaff",
             active="#ffffff",
             inactive="#848e96",
             background="#2f343f",
@@ -100,7 +103,7 @@ def main_bar(visible_groups):
             display_format="{updates} updates",
             foreground="#ffffff",
             mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(terminal + " -e yay -Syu")
+                "Button1": lambda: qtile.cmd_spawn(SECONDARY_TERMINAL + " -e yay -Syu")
             },
             background="#2f343f",
             font="Cantarell",
@@ -126,11 +129,13 @@ def main_bar(visible_groups):
             padding=3,
             # foreground=colors[4],
             # background="#2f343f",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("pavucontrol")},
+            mouse_callbacks={
+                "Button1": lambda: qtile.cmd_spawn("pavucontrol")},
             font="Cantarell",
         ),
         widget.Sep(padding=5, linewidth=0),
-        widget.Sep(padding=0, linewidth=5, foreground="#2f343f", size_percent=100),
+        widget.Sep(padding=0, linewidth=5,
+                   foreground="#2f343f", size_percent=100),
         widget.Battery(
             format="{percent:2.0%} {char}",
             font="Cantarell",
@@ -160,24 +165,18 @@ def main_bar(visible_groups):
         widget.Sep(padding=3, linewidth=0),
     ]
 
+    if device == "desktop":
+        battery_index = next(
+            (
+                i for i, wgt in enumerate(bar) if isinstance(wgt, widget.Battery)
+            ), None
+        )
+        bar.pop(battery_index)
+
     return bar
 
 
 def secondary_bar(visible_groups):
-
-    colors = [
-        ["#282c34", "#282c34"],  # panel background
-        ["#3d3f4b", "#434758"],  # background for current screen tab
-        ["#ffffff", "#ffffff"],  # font color for group names
-        ["#ff5555", "#ff5555"],  # border line color for current tab
-        [
-            "#74438f",
-            "#74438f",
-        ],  # border line color for 'other tabs' and color for 'odd widgets'
-        ["#4f76c7", "#4f76c7"],  # color for the 'even widgets'
-        ["#e1acff", "#e1acff"],  # window name
-        ["#ecbbfb", "#ecbbfb"],  # backbround for inactive screens
-    ]
 
     bar = [
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
@@ -185,8 +184,10 @@ def secondary_bar(visible_groups):
         widget.GroupBox(
             highlight_method="line",
             highlight_color="#2f343f",
-            this_screen_border="#5294e2",
-            this_current_screen_border="#5294e2",
+            # this_screen_border="#5294e2",
+            this_screen_border="#82aaff",
+            # this_current_screen_border="#5294e2",
+            this_current_screen_border="#82aaff",
             active="#ffffff",
             inactive="#848e96",
             background="#2f343f",
@@ -230,7 +231,6 @@ def get_my_screens(groups):
             groups[2].name,
             groups[3].name,
         ]
-
     else:
         main_visible_groups = [
             groups[0].name,
@@ -256,19 +256,20 @@ def get_my_screens(groups):
 
     screens = []
 
+    device = check_device()
+
     for count in range(monitor_count):
         if count == 0:
             screens.append(
                 Screen(
                     top=bar.Bar(
-                        main_bar(main_visible_groups),
+                        main_bar(main_visible_groups, device),
                         35,  # height in px
                         background="#2f343f",
                         # background="#404552",  # background color
                     ),
                 ),
             )
-
         else:
             screens.append(
                 Screen(
