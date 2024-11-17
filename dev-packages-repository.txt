@@ -1,5 +1,2 @@
-vim
 docker
 docker-compose
-npm
-neovim
