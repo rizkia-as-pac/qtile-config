@@ -30,6 +30,10 @@ def get_my_keybinding(groups):
         Key([], "Print", lazy.spawn("flameshot gui"), desc="Launch screenshot"),
         Key([ALTERKEY], "Return", lazy.spawn(
             TERMINAL), desc="Launch terminal"),
+        # Key(
+        #     [ALTERKEY], "Return",
+        #     lazy.spawn(f"{HOME}/.config/qtile/urxvtc.sh"),
+        # ),
         Key([ALTERKEY], "slash", lazy.spawn(
             SECONDARY_TERMINAL), desc="Launch terminal"),
         Key([ALTERKEY], "delete", lazy.window.kill(), desc="Kill focused window"),

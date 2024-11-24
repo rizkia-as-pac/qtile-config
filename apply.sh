@@ -5,6 +5,7 @@ cp -R .config/qtile/my_layout.py ~/.config/qtile/
 cp -R .config/qtile/my_screen.py ~/.config/qtile/
 cp -R .config/qtile/my_group.py ~/.config/qtile/
 cp -R .config/qtile/constant.py ~/.config/qtile/
+cp -R .config/qtile/urxvtc.sh ~/.config/qtile/
 
 cp -R .config/qtile/autostart.sh ~/.config/qtile/
 cp -R .config/qtile/autoreload.sh ~/.config/qtile/

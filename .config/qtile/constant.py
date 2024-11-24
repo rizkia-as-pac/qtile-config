@@ -1,8 +1,10 @@
 from typing import Final
+import os
 
 MOD: Final[str] = "mod4"
 ALTERKEY: Final[str] = "mod1"
-TERMINAL: Final[str] = "urxvtc"
+HOME = os.path.expanduser("~")
+TERMINAL: Final[str] = f"{HOME}/.config/qtile/urxvtc.sh"
 SECONDARY_TERMINAL: Final[str] = "kitty"
 
 
