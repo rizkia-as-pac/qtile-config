@@ -2,8 +2,8 @@ from typing import Final
 
 MOD: Final[str] = "mod4"
 ALTERKEY: Final[str] = "mod1"
-TERMINAL: Final[str] = "kitty"
-SECONDARY_TERMINAL: Final[str] = "xterm"
+TERMINAL: Final[str] = "urxvtc"
+SECONDARY_TERMINAL: Final[str] = "kitty"
 
 
 # colors = [
