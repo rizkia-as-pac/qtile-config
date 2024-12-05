@@ -7,7 +7,8 @@ def get_my_groups():
         # sure the groups startup on the right screens
         # Main screen
         Group(name="q", screen_affinity=0, label="Q"),
-        Group(name="w", screen_affinity=0, label="W", matches=[Match(wm_class="code")]),
+        Group(name="w", screen_affinity=0, label="W",
+              matches=[Match(wm_class="code")]),
         Group(name="e", screen_affinity=0, label="E"),
         Group(name="r", screen_affinity=0, label="R"),
         # Secondary screen
@@ -22,6 +23,7 @@ def get_my_groups():
         Group(name="4", screen_affinity=1, label="4"),
         Group(name="5", screen_affinity=1, label="5"),
         Group(name="6", screen_affinity=1, label="6"),
+        Group(name="0", screen_affinity=0, label="0"),
     ]
 
     return groups

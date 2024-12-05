@@ -230,6 +230,7 @@ def get_my_screens(groups):
             groups[1].name,
             groups[2].name,
             groups[3].name,
+            groups[10].name,
         ]
     else:
         main_visible_groups = [
@@ -237,6 +238,7 @@ def get_my_screens(groups):
             groups[1].name,
             groups[2].name,
             groups[3].name,
+            groups[10].name,
             groups[4].name,
             groups[5].name,
             groups[6].name,

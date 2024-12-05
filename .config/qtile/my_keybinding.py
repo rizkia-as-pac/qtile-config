@@ -13,7 +13,7 @@ def go_to_group(name: str):
             qtile.groups_map[name].toscreen()
             return
 
-        if name.isdigit():
+        if name.isdigit() and name != "0":
             # qtile.focus_screen(1)
             qtile.groups_map[name].toscreen(1)
         else:
