@@ -5,7 +5,7 @@ MOD: Final[str] = "mod4"
 ALTERKEY: Final[str] = "mod1"
 HOME = os.path.expanduser("~")
 TERMINAL: Final[str] = f"{HOME}/.config/qtile/urxvtc.sh"
-SECONDARY_TERMINAL: Final[str] = "kitty"
+SECONDARY_TERMINAL: Final[str] = "xterm"
 
 
 # colors = [
