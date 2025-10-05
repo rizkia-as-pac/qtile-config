@@ -4,8 +4,8 @@ import os
 MOD: Final[str] = "mod4"
 ALTERKEY: Final[str] = "mod1"
 HOME = os.path.expanduser("~")
-TERMINAL: Final[str] = f"{HOME}/.config/qtile/urxvtc.sh"
-SECONDARY_TERMINAL: Final[str] = "xterm"
+TERMINAL: Final[str] = f"{HOME}/.config/qtile/urxvtc.sh" # https://www.reddit.com/r/archlinux/comments/kf4aes/is_there_a_reason_i_shouldnt_use_urxvt_with/
+SECONDARY_TERMINAL: Final[str] = "kitty"
 
 
 # colors = [
