@@ -27,6 +27,9 @@ def get_my_keybinding(groups):
     HOME = os.path.expanduser("~")
 
     keys = [
+
+        Key([MOD], "r", lazy.spawn("rofi -show drun"), desc="spawn rofi"),
+
         Key([], "Print", lazy.spawn("flameshot gui"), desc="Launch screenshot"),
         Key([ALTERKEY], "Return", lazy.spawn(
             TERMINAL), desc="Launch terminal"),
