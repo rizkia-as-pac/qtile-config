@@ -87,7 +87,7 @@ def main_bar(visible_groups, device):
         widget.WindowCount(
             fontsize=14,
         ),
-        widget.CurrentLayoutIcon(scale=0.60),
+        widget.CurrentLayout(scale=0.60),
         widget.Sep(padding=5, linewidth=0),
         widget.Clock(
             format="%Y-%m-%d %a %I:%M %p",
@@ -211,7 +211,7 @@ def secondary_bar(visible_groups):
         widget.WindowCount(
             fontsize=14,
         ),
-        widget.CurrentLayoutIcon(scale=0.60),
+        widget.CurrentLayout(scale=0.60),
         widget.Sep(padding=2, linewidth=0),
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
         widget.Sep(padding=5, linewidth=0, background="#2f343f"),
