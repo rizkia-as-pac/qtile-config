@@ -22,3 +22,5 @@ autorandr
 htop
 xclip
 inotify-tools
+rxvt-unicode
+xterm
