@@ -1,0 +1,5 @@
+sudo pacman -Rsu endeavouros-xfce4-terminal-colors
+sudo pacman -Rsu eos-lightdm-slick-theme 
+sudo pacman -Rsu i3blocks  i3lock    i3status  i3-wm
+sudo pacman -Rsu lightdm lightdm-slick-greeter
+sudo pacman -Rsu xfce4-terminal 

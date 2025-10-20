@@ -24,3 +24,4 @@ xclip
 inotify-tools
 rxvt-unicode
 xterm
+xorg-xinit
