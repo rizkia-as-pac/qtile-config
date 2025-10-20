@@ -13,7 +13,7 @@ def go_to_group(name: str):
             qtile.groups_map[name].toscreen()
             return
 
-        if name.isdigit():
+        if name.isdigit() and name != "0":
             # qtile.focus_screen(1)
             qtile.groups_map[name].toscreen(1)
         else:
@@ -27,6 +27,9 @@ def get_my_keybinding(groups):
     HOME = os.path.expanduser("~")
 
     keys = [
+
+        Key([MOD], "r", lazy.spawn("rofi -show drun"), desc="spawn rofi"),
+
         Key([], "Print", lazy.spawn("flameshot gui"), desc="Launch screenshot"),
         Key([ALTERKEY], "Return", lazy.spawn(
             TERMINAL), desc="Launch terminal"),
