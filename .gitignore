@@ -3,3 +3,5 @@ __pycache__/
 *$py.class
 
 .config/qtile/modules/__pycache__
+baks/
+.config/qtile/assets/wallpaper.png

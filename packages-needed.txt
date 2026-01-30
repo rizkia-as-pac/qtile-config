@@ -22,6 +22,7 @@ autorandr
 htop
 xclip
 inotify-tools
+zenity
 rxvt-unicode
 xterm
 xorg-xinit
