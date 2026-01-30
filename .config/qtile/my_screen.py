@@ -22,7 +22,8 @@ def get_number_of_monitors():
 def check_device():
     hostname_command = ["hostnamectl", "--json=pretty"]
     result = subprocess.run(
-        hostname_command, capture_output=True, text=True, check=True)
+        hostname_command, capture_output=True, text=True, check=True
+    )
 
     output = result.stdout
     jsonOutput = json.loads(output)
@@ -33,35 +34,32 @@ def check_device():
 def main_bar(visible_groups, device):
 
     bar = [
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
         widget.Image(
-            filename="~/.config/qtile/assets/icon.png",
+            filename="~/.config/qtile/assets/icons/linux1.png",
             margin=6,
-            background="#2f343f",
-            mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
         ),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
         widget.GroupBox(
             highlight_method="line",
-            highlight_color="#2f343f",
             # this_screen_border="#5294e2",
             this_screen_border="#82aaff",
+            highlight_color=["00000000", "00000000"],
             # this_current_screen_border="#5294e2",
             this_current_screen_border="#82aaff",
             active="#ffffff",
             inactive="#848e96",
-            background="#2f343f",
             font="Cantarell",
             fontsize=15,
             padding=4,
             margin_y=4,
             visible_groups=visible_groups,
         ),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
         widget.Prompt(
-            fontsize=15,
+            fontsize=14,
             font="Cantarell",
             # foreground="#2f343f",
             foreground="#99c0de",
@@ -73,9 +71,9 @@ def main_bar(visible_groups, device):
             # scroll_clear=True,
             # scroll_hide=True,
         ),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
         widget.WindowName(
             # foreground="#99c0de",
             # background="#2f343f",
@@ -87,15 +85,14 @@ def main_bar(visible_groups, device):
         widget.WindowCount(
             fontsize=14,
         ),
-        widget.CurrentLayoutIcon(scale=0.60),
+        widget.CurrentLayout(scale=0.60, fontsize=14),
         widget.Sep(padding=5, linewidth=0),
         widget.Clock(
             format="%Y-%m-%d %a %I:%M %p",
-            # background="#2f343f",
             # foreground="#9bd689",
             padding=8,
             font="Cantarell",
-            fontsize=15,
+            fontsize=14,
         ),
         widget.CheckUpdates(
             update_interval=1800,
@@ -105,48 +102,54 @@ def main_bar(visible_groups, device):
             mouse_callbacks={
                 "Button1": lambda: qtile.cmd_spawn(SECONDARY_TERMINAL + " -e yay -Syu")
             },
-            background="#2f343f",
             font="Cantarell",
-            fontsize=15,
+            fontsize=14,
             padding=8,
         ),
         widget.Sep(padding=5, linewidth=0),
         widget.Memory(
-            format='{MemUsed: .3f} /{MemTotal: .3f}',
-            measure_mem='G',
-            fontsize=15,
+            format="{MemUsed: .3f} /{MemTotal: .3f}",
+            measure_mem="G",
+            fontsize=14,
         ),
         widget.Sep(padding=5, linewidth=0),
         widget.TextBox(
             text="dB:",
             # foreground="#e39378",
             font="Cantarell",
-            fontsize=15,
+            fontsize=14,
             padding=3,
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("pavucontrol")},
         ),
         widget.Volume(
-            fontsize=15,
+            fontsize=14,
             padding=3,
             # foreground=colors[4],
-            # background="#2f343f",
-            mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn("pavucontrol")},
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("pavucontrol")},
             font="Cantarell",
         ),
         widget.Sep(padding=5, linewidth=0),
-        widget.Sep(padding=0, linewidth=5,
-                   foreground="#2f343f", size_percent=100),
+        widget.Sep(padding=5, linewidth=0),
         widget.Battery(
             format="{percent:2.0%} {char}",
             font="Cantarell",
-            fontsize=15,
+            fontsize=14,
             update_interval=2,
         ),
         widget.Sep(padding=5, linewidth=0),
         widget.Sep(padding=5, linewidth=0),
         widget.Sep(padding=5, linewidth=0),
         widget.Sep(padding=5, linewidth=0),
-        widget.Systray(icon_size=17, padding=8),
+        widget.Image(
+            filename="~/.config/qtile/assets/icons/set-wallpaper.png",
+            margin=7,
+            mouse_callbacks={
+                "Button1": lambda: qtile.cmd_spawn(
+                    os.path.expanduser("~/.config/qtile/scripts/change_wp.sh")
+                )
+            },
+        ),
+        widget.Systray(icon_size=17, padding=10),
         widget.Sep(padding=5, linewidth=0),
         widget.TextBox(
             text="⏻",
@@ -167,9 +170,7 @@ def main_bar(visible_groups, device):
 
     if device == "desktop":
         battery_index = next(
-            (
-                i for i, wgt in enumerate(bar) if isinstance(wgt, widget.Battery)
-            ), None
+            (i for i, wgt in enumerate(bar) if isinstance(wgt, widget.Battery)), None
         )
         bar.pop(battery_index)
 
@@ -179,30 +180,28 @@ def main_bar(visible_groups, device):
 def secondary_bar(visible_groups):
 
     bar = [
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
         widget.GroupBox(
             highlight_method="line",
-            highlight_color="#2f343f",
             # this_screen_border="#5294e2",
             this_screen_border="#82aaff",
+            highlight_color=["00000000", "00000000"],
             # this_current_screen_border="#5294e2",
             this_current_screen_border="#82aaff",
             active="#ffffff",
             inactive="#848e96",
-            background="#2f343f",
             font="Cantarell",
             fontsize=15,
             padding=4,
             margin_y=4,
             visible_groups=visible_groups,
         ),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
         widget.WindowName(
             # foreground="#99c0de",
-            # background="#2f343f",
             fmt="{}",
             font="Cantarell",
             fontsize=13,
@@ -211,10 +210,10 @@ def secondary_bar(visible_groups):
         widget.WindowCount(
             fontsize=14,
         ),
-        widget.CurrentLayoutIcon(scale=0.60),
+        widget.CurrentLayout(scale=0.60),
         widget.Sep(padding=2, linewidth=0),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
-        widget.Sep(padding=5, linewidth=0, background="#2f343f"),
+        widget.Sep(padding=5, linewidth=0),
+        widget.Sep(padding=5, linewidth=0),
     ]
 
     return bar
@@ -267,7 +266,9 @@ def get_my_screens(groups):
                     top=bar.Bar(
                         main_bar(main_visible_groups, device),
                         35,  # height in px
-                        background="#2f343f",
+                        # background="#2f343f",
+                        # background="#2f343f80",  # 50% transparent background color
+                        background="#2f343f40",  # 25% transparent background color
                         # background="#404552",  # background color
                     ),
                 ),
@@ -278,7 +279,8 @@ def get_my_screens(groups):
                     top=bar.Bar(
                         secondary_bar(secondary_visible_groups),
                         35,  # height in px
-                        background="#2f343f",
+                        # background="#2f343f80",
+                        background="#2f343f40",
                         # background="#404552",  # background color
                     ),
                 ),

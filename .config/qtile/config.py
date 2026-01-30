@@ -3,13 +3,13 @@ import subprocess
 from locale import LC_ALL, setlocale
 
 from libqtile import bar, hook, layout, qtile, widget
-from libqtile.config import (Click, Drag, DropDown, Group, Key, Match,
-                             ScratchPad, Screen)
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from my_group import get_my_groups
 from my_screen import get_my_screens
 from my_keybinding import get_my_keybinding
 from my_layout import get_my_layout
+from get_my_floating_window import get_my_floating_layout
 
 setlocale(LC_ALL, "")
 
@@ -168,6 +168,8 @@ floating_layout = layout.Floating(
     ]
 )
 
+floating_layout = get_my_floating_layout()
+
 ####################################################
 ####################################################
 #                                                  #
@@ -178,13 +180,18 @@ floating_layout = layout.Floating(
 
 # Drag floating layouts.
 mouse = [
-    Drag( [mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position(),),
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
     Click([mod], "Button1", lazy.window.bring_to_front()),
-
-    Click( [mod], "Button2", lazy.window.toggle_floating()),
+    Click([mod], "Button2", lazy.window.toggle_floating()),
     # Click([mod], "Button2", lazy.window.bring_to_front()),
-
-    Drag( [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Drag(
+        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+    ),
 ]
 
 ####################################################
@@ -276,7 +283,7 @@ screens = [
                     fontsize=13,
                     padding=3,
                 ),
-                widget.CurrentLayoutIcon(scale=0.70),
+                widget.CurrentLayout(scale=0.70),
                 widget.Sep(padding=4, linewidth=0),
                 widget.TextBox(
                     text="",
