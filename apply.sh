@@ -70,4 +70,3 @@ cp -R .config/mimeapps.list "${HOME}/.config/"
 cp -R ./shell_config "${HOME}/"
 
 echo "Copy process completed successfully."
-

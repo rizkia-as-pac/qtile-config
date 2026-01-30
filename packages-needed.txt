@@ -2,7 +2,6 @@ ttf-nerd-fonts-symbols
 qtile
 ttf-cascadia-code
 arc-gtk-theme-eos
-xfce4-terminal
 pcmanfm-gtk3
 picom
 alsa-utils
@@ -14,7 +13,6 @@ rofi
 slock
 dunst
 network-manager-applet
-eos-sddm-theme
 brightnessctl
 bc
 flameshot
@@ -25,3 +23,6 @@ htop
 xclip
 inotify-tools
 zenity
+rxvt-unicode
+xterm
+xorg-xinit
