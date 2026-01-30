@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo pacman -S --needed --noconfirm - < packages-repository.txt
+sudo pacman -S --needed --noconfirm - < ./packages-needed.txt
 
 set -euo pipefail
 
@@ -25,7 +25,6 @@ TARGETS=(
   "${HOME}/.config/rofi"
   "${HOME}/.config/autorandr"
   "${HOME}/.config/mimeapps.list"
-  "${HOME}/shell_config"
 )
 
 # =========================
@@ -67,6 +66,5 @@ cp -R .config/qtile "${HOME}/.config/"
 cp -R .config/rofi "${HOME}/.config/"
 cp -R .config/autorandr "${HOME}/.config/"
 cp -R .config/mimeapps.list "${HOME}/.config/"
-cp -R ./shell_config "${HOME}/"
 
 echo "Copy process completed successfully."
