@@ -24,3 +24,4 @@ autorandr
 htop
 xclip
 inotify-tools
+zenity

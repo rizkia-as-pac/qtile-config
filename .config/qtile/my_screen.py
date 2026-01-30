@@ -4,6 +4,7 @@ import json
 
 from libqtile import bar, qtile, widget
 from libqtile.config import Screen
+from libqtile.lazy import lazy
 
 from constant import SECONDARY_TERMINAL
 
@@ -140,6 +141,13 @@ def main_bar(visible_groups, device):
         widget.Sep(padding=5, linewidth=0),
         widget.Sep(padding=5, linewidth=0),
         widget.Sep(padding=5, linewidth=0),
+        # widget.Image(
+        #     filename="~/.config/qtile/assets/icons/refresh.png",
+        #     margin=8,
+        #     mouse_callbacks={
+        #         "Button1": lambda: lazy.restart()
+        #     },
+        # ),
         widget.Image(
             filename="~/.config/qtile/assets/icons/set-wallpaper.png",
             margin=7,
