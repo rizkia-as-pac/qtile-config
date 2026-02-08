@@ -5,6 +5,7 @@ from libqtile.config import Key
 from libqtile.lazy import lazy
 
 from constant import ALTERKEY, MOD, SECONDARY_TERMINAL, TERMINAL
+from lib.brotab_picker import brotab_rofi
 
 
 def go_to_group(name: str):
@@ -27,18 +28,21 @@ def get_my_keybinding(groups):
     HOME = os.path.expanduser("~")
 
     keys = [
-
         Key([MOD], "r", lazy.spawn("rofi -show drun"), desc="spawn rofi"),
-
         Key([], "Print", lazy.spawn("flameshot gui"), desc="Launch screenshot"),
-        Key([ALTERKEY], "Return", lazy.spawn(
-            TERMINAL), desc="Launch terminal"),
+        Key([ALTERKEY], "Return", lazy.spawn(TERMINAL), desc="Launch terminal"),
         # Key(
         #     [ALTERKEY], "Return",
         #     lazy.spawn(f"{HOME}/.config/qtile/urxvtc.sh"),
         # ),
-        Key([ALTERKEY], "slash", lazy.spawn(
-            SECONDARY_TERMINAL), desc="Launch terminal"),
+        # Key([ALTERKEY], "slash", lazy.spawn(
+        #     SECONDARY_TERMINAL), desc="Launch terminal"),
+        Key(
+            [ALTERKEY],
+            "slash",
+            lazy.function(brotab_rofi),
+            desc="Pick Firefox tab via rofi (brotab)",
+        ),
         Key([ALTERKEY], "delete", lazy.window.kill(), desc="Kill focused window"),
         Key(
             [ALTERKEY],
@@ -52,10 +56,8 @@ def get_my_keybinding(groups):
             lazy.window.toggle_fullscreen(),
             desc="Toggle fullscreen on the focused window",
         ),
-        Key([ALTERKEY], 'space', lazy.next_screen(), desc='Next monitor'),
-
-        Key([ALTERKEY], "escape", lazy.next_layout(),
-            desc="Toggle between layouts"),
+        Key([ALTERKEY], "space", lazy.next_screen(), desc="Next monitor"),
+        Key([ALTERKEY], "escape", lazy.next_layout(), desc="Toggle between layouts"),
         # Rofi
         Key([MOD], "r", lazy.spawn("rofi -show drun"), desc="spawn rofi"),
         #
@@ -82,8 +84,9 @@ def get_my_keybinding(groups):
             lazy.layout.shuffle_right(),
             desc="Move window to the right",
         ),
-        Key([MOD, "shift"], "down", lazy.layout.shuffle_down(),
-            desc="Move window down"),
+        Key(
+            [MOD, "shift"], "down", lazy.layout.shuffle_down(), desc="Move window down"
+        ),
         Key([MOD, "shift"], "down", lazy.layout.shuffle_up(), desc="Move window up"),
         # Grow windows. If current window is on the edge of screen and direction
         # will be to screen edge - window would shrink.
@@ -97,10 +100,15 @@ def get_my_keybinding(groups):
             lazy.spawn("playerctl play-pause"),
             desc="Media play/pause",
         ),
-        Key([ALTERKEY], "n", lazy.spawn(
-            "playerctl position 10-"), desc="back 10 second"),
-        Key([ALTERKEY], "m", lazy.spawn(
-            "playerctl position 10+"), desc="forward 10 second"),
+        Key(
+            [ALTERKEY], "n", lazy.spawn("playerctl position 10-"), desc="back 10 second"
+        ),
+        Key(
+            [ALTERKEY],
+            "m",
+            lazy.spawn("playerctl position 10+"),
+            desc="forward 10 second",
+        ),
         Key([MOD, "control"], "r", lazy.restart(), desc="Restart Qtile"),
         Key([MOD, "control"], "delete", lazy.shutdown(), desc="Shutdown Qtile"),
         Key(
@@ -117,15 +125,13 @@ def get_my_keybinding(groups):
         Key(
             [],
             "XF86MonBrightnessUp",
-            lazy.spawn(
-                f"{HOME}/.config/qtile/scripts/brightness.sh brightness_up"),
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_up"),
             desc="brightness UP",
         ),
         Key(
             [],
             "XF86MonBrightnessDown",
-            lazy.spawn(
-                f"{HOME}/.config/qtile/scripts/brightness.sh brightness_down"),
+            lazy.spawn(f"{HOME}/.config/qtile/scripts/brightness.sh brightness_down"),
             desc="brightness Down",
         ),
     ]
@@ -134,8 +140,7 @@ def get_my_keybinding(groups):
         keys.extend(
             [
                 # ALTERKEY + group name = switch to group
-                Key([ALTERKEY], group.name, lazy.function(
-                    go_to_group(group.name))),
+                Key([ALTERKEY], group.name, lazy.function(go_to_group(group.name))),
                 # MOD + shift + number of group = move focused window to group
                 Key(
                     [MOD, "shift"],
