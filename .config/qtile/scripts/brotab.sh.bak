@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEFAULT_GROUP="e"
+
+# brotab must be available
+bt clients >/dev/null 2>&1 || exit 0
+
+tabs="$(bt list 2>/dev/null || true)"
+[ -z "${tabs:-}" ] && exit 0
+
+# rofi-friendly (brotab uses \t delimiters)
+menu_lines="$(printf "%s\n" "$tabs" | tr '\t' ' ')"
+
+# --- Build mapping: window_prefix (e.g., b.1) -> qtile group (e.g., e)
+# Strategy:
+# - Get Qtile root.windows JSON
+# - Keep only Firefox windows with their group + full title
+# - Compare against bt list titles; if bt_title is prefix of qtile_title, map tab window_prefix -> group
+
+qtile_windows_json="$(qtile cmd-obj -o root -f windows 2>/dev/null || true)"
+
+# Print mapping lines: "b.1<TAB>e"
+map_lines="$(
+  python3 - "$qtile_windows_json" "$tabs" <<'PY' 2>/dev/null || true
+import sys, json, re
+
+qtile_raw = sys.argv[1].strip()
+bt_raw = sys.argv[2]
+
+if not qtile_raw.startswith("["):
+    sys.exit(0)
+
+wins = json.loads(qtile_raw)
+
+# Collect firefox windows: list of (group, title_full)
+ff = []
+for w in wins:
+    wm = w.get("wm_class") or []
+    wm_s = ",".join(wm) if isinstance(wm, list) else str(wm)
+    if "firefox" not in wm_s.lower():
+        continue
+    g = w.get("group") or ""
+    title = (w.get("name") or "").replace("\n", " ").strip()
+    if g and title:
+        ff.append((g, title))
+
+# Helper: get window prefix from tab_id "b.1.3" -> "b.1"
+def window_prefix(tab_id: str) -> str:
+    parts = tab_id.split(".")
+    return ".".join(parts[:2]) if len(parts) >= 2 else tab_id
+
+# Parse bt list lines: tab_id \t title \t url
+# Map prefix -> group (first match wins)
+seen = set()
+for line in bt_raw.splitlines():
+    if not line.strip():
+        continue
+    parts = line.split("\t")
+    if len(parts) < 2:
+        continue
+    tab_id = parts[0].strip()
+    tab_title = parts[1].strip()
+    if not tab_id or not tab_title:
+        continue
+
+    wp = window_prefix(tab_id)
+    if wp in seen:
+        continue
+
+    # Match: bt tab_title is prefix of qtile window title (case-sensitive as title often contains symbols like \)
+    # Example:
+    # bt: "Qtile browser window list"
+    # qtile: "Qtile browser window list — Original profile — Mozilla Firefox"
+    for g, full_title in ff:
+        if full_title.startswith(tab_title):
+            print(f"{wp}\t{g}")
+            seen.add(wp)
+            break
+PY
+)"
+
+declare -A PREFIX_TO_GROUP=()
+if [ -n "${map_lines:-}" ]; then
+  while IFS=$'\t' read -r wp grp; do
+    [ -z "${wp:-}" ] && continue
+    [ -z "${grp:-}" ] && continue
+    PREFIX_TO_GROUP["$wp"]="$grp"
+  done <<<"$map_lines"
+fi
+
+# --- rofi choose
+input="$(
+  printf "%s\n" "$menu_lines" \
+  | rofi -dmenu -i -p "Firefox tab / search"
+)"
+
+# If empty/cancel -> focus default group
+if [ -z "${input:-}" ]; then
+  qtile cmd-obj -o group "$DEFAULT_GROUP" -f toscreen >/dev/null 2>&1 || true
+
+  exit 0
+fi
+
+# If selected an existing tab line -> activate tab and focus mapped group by window prefix
+if printf "%s\n" "$menu_lines" | grep -Fxq -- "$input"; then
+  tab_id="$(printf "%s" "$input" | awk '{print $1}')"
+  [ -z "${tab_id:-}" ] && exit 0
+
+  # window prefix: b.1.3 -> b.1
+  wp="$(printf "%s" "$tab_id" | awk -F'.' '{print $1"."$2}')"
+  target_group="${PREFIX_TO_GROUP[$wp]:-$DEFAULT_GROUP}"
+
+  qtile cmd-obj -o group "$target_group" -f toscreen >/dev/null 2>&1 || true
+  bt activate "$tab_id"
+  exit 0
+fi
+
+# Otherwise: treat as search query -> focus default group, then open google search in a sensible window prefix
+qtile cmd-obj -o group "$DEFAULT_GROUP" -f toscreen >/dev/null 2>&1 || true
+
+query="$(printf "%s" "$input" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+[ -z "${query:-}" ] && exit 0
+
+encoded_q="$(python3 -c 'import sys,urllib.parse; print(urllib.parse.quote_plus(sys.argv[1]))' "$query")"
+url="https://www.google.com/search?q=${encoded_q}"
+
+# Prefer opening in a window prefix that maps to DEFAULT_GROUP, if any.
+open_prefix=""
+for k in "${!PREFIX_TO_GROUP[@]}"; do
+  if [ "${PREFIX_TO_GROUP[$k]}" = "$DEFAULT_GROUP" ]; then
+    open_prefix="$k"
+    break
+  fi
+done
+
+# Fallback: first available prefix from bt clients
+if [ -z "${open_prefix:-}" ]; then
+  open_prefix="$(bt clients | head -n1 | awk '{print $1}' | cut -d. -f1-2)"
+fi
+[ -z "${open_prefix:-}" ] && exit 0
+
+bt open "$open_prefix" <<EOF
+$url
+EOF

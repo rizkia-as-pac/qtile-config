@@ -37,7 +37,7 @@ def main_bar(visible_groups, device):
     bar = [
         widget.Sep(padding=5, linewidth=0),
         widget.Image(
-            filename="~/.config/qtile/assets/icons/linux1.png",
+            filename="~/.config/qtile/assets/icons/main-2.png",
             margin=6,
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
         ),
