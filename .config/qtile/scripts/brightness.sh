@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 brightness_max="$(brightnessctl m)"
+step=$((brightness_max / 100))  # 1%
 
 case $1 in
     brightness_up)
-    # Increases brightness
-    brightnessctl set 5+ 
-    ;;
-
+        brightnessctl set "${step}+"
+        ;;
     brightness_down)
-    # Decreases brightness
-    brightnessctl set 5- 
-    ;;
+        brightnessctl set "${step}-"
+        ;;
 esac
 
 brightness="$(brightnessctl g)"
